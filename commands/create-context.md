@@ -22,11 +22,12 @@ Read @~/.claude/contexts/context-creation.md for precise instructions about how 
 
 Before creating the context module, ask these essential questions about the specified topic:
 
-1. **Scope Refinement**: What specific aspects of the topic should be covered? (e.g., basic usage, advanced configuration, specific use cases)
-2. **Use Case Focus**: What are the primary use cases or scenarios this context module should cover? (e.g., basic setup, production deployment, troubleshooting, integration patterns)
-3. **Technical Depth**: What level of technical detail is needed? (e.g., beginner setup, advanced configuration, enterprise patterns)
-4. **Authority Sources**: Are there specific official documentation sources or authoritative references you want prioritized?
-5. **Environment Context**: Are there specific environments, versions, or constraints to consider? (e.g., Linux/Windows, specific versions, cloud platforms)
+1. **Storage Location**: Would you like to store this context **globally** (in ~/.claude/contexts/) or **locally** (in the current project's context directory)?
+2. **Scope Refinement**: What specific aspects of the topic should be covered? (e.g., basic usage, advanced configuration, specific use cases)
+3. **Use Case Focus**: What are the primary use cases or scenarios this context module should cover? (e.g., basic setup, production deployment, troubleshooting, integration patterns)
+4. **Technical Depth**: What level of technical detail is needed? (e.g., beginner setup, advanced configuration, enterprise patterns)
+5. **Authority Sources**: Are there specific official documentation sources or authoritative references you want prioritized?
+6. **Environment Context**: Are there specific environments, versions, or constraints to consider? (e.g., Linux/Windows, specific versions, cloud platforms)
 
 ## Delivery Format
 
@@ -34,7 +35,9 @@ Present the final context module as a complete markdown document following the f
 
 **Important Requirements:**
 - **Naming**: Name the context module after the topic with "-context" suffix (e.g., `postgresql-administration-context.md`, `docker-containerization-context.md`, `fastapi-development-context.md`). Avoid action verbs like "create", "improve", "setup"
-- **Location**: Place all context modules in the `~/.claude/contexts/` folder
+- **Location**: Based on the user's choice:
+  - **Global**: Place in `~/.claude/contexts/` folder (accessible across all projects)
+  - **Local**: Place in `./contexts/` folder in the current project directory (create the directory if it doesn't exist)
 - **Format**: Use `.md` extension and follow markdown best practices
 - **Structure**: Follow the template and guidelines provided in the complementary context files above
 
