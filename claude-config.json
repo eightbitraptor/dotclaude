@@ -1,0 +1,11 @@
+{
+  "theme": "dark-daltonized",
+  "mcpServers": {
+    "marisa": {
+      "type": "stdio",
+      "command": "/Users/mattvh/git/marisa/bin/marisa",
+      "args": [],
+      "env": {}
+    }
+  }
+}

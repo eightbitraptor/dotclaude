@@ -1,0 +1,20 @@
+# Ignore the full runtime config
+claude.json
+
+# Version control only the minimal config
+!claude-config.json
+
+# Local database files
+__store.db
+
+# Local dependencies and builds
+local/
+
+# User-specific project conversation logs
+projects/
+
+# Analytics and feature flag cache
+statsig/
+
+# User-specific todo lists
+todos/
