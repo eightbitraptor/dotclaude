@@ -29,11 +29,11 @@
   - [x] 3.3 Create instructions for monitoring agent progress and coordinating their work
   - [x] 3.4 Establish communication protocols between lead AI and agents through task list updates
   - [x] 3.5 Define error handling procedures for agent failures or communication issues
-- [ ] 4.0 Create enhanced task list format instructions
-  - [ ] 4.1 Define how to add agent assignment metadata using HTML comments (<!-- Agent: name -->)
-  - [ ] 4.2 Create examples of enhanced task lists with agent assignments and progress tracking
-  - [ ] 4.3 Ensure instructions maintain compatibility with existing markdown task list format
-  - [ ] 4.4 Include guidelines for updating task lists with agent progress and status
+- [x] 4.0 Create enhanced task list format instructions
+  - [x] 4.1 Define how to add agent assignment metadata using HTML comments (<!-- Agent: name -->)
+  - [x] 4.2 Create examples of enhanced task lists with agent assignments and progress tracking
+  - [x] 4.3 Ensure instructions maintain compatibility with existing markdown task list format
+  - [x] 4.4 Include guidelines for updating task lists with agent progress and status
 - [ ] 5.0 Integrate team protocols with existing quality controls
   - [ ] 5.1 Adapt the existing completion protocol (test → stage → commit) for team coordination
   - [ ] 5.2 Establish that only the lead AI performs git operations, never individual agents

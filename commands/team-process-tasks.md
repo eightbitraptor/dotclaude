@@ -411,3 +411,249 @@ Define clear procedures for handling various types of agent and communication fa
 - **Timeline adjustment**: Revise project timeline if errors cause significant delays  
 - **Team communication**: Inform other agents of any changes affecting their work
 - **Process improvement**: Learn from errors to prevent similar issues in future tasks
+
+## Enhanced Task List Format Instructions
+
+### Agent Assignment Metadata Format
+
+Enhance the standard markdown task list format by adding agent assignment metadata using HTML comments:
+
+#### Basic Assignment Format:
+```markdown
+- [ ] 1.1 Create user registration form <!-- Agent: frontend-specialist -->
+- [ ] 1.2 Implement user authentication API <!-- Agent: backend-developer -->
+- [ ] 1.3 Write unit tests for auth system <!-- Agent: testing-specialist -->
+```
+
+#### HTML Comment Rules:
+- **Placement**: Add `<!-- Agent: agent-name -->` immediately after the sub-task description
+- **Naming**: Use exact agent names from `claude-swarm.yml` configuration
+- **Visibility**: Comments are visible in source but don't affect markdown rendering
+- **Persistence**: Keep agent assignments in place throughout task lifecycle
+
+#### Extended Metadata Format:
+```markdown
+- [ ] 2.1 Build payment processing <!-- Agent: backend-developer -->
+<!-- PRIORITY: High | DEPENDS: Task 1.2 | EST: 4 hours -->
+<!-- INSTRUCTION: Use Stripe API, implement webhook handling -->
+```
+
+#### Assignment Status Indicators:
+```markdown
+- [ ] 3.1 Design landing page <!-- Agent: frontend-specialist -->
+<!-- STATUS: In Progress (started 2PM) -->
+
+- [x] 3.2 Create database schema <!-- Agent: backend-developer -->
+<!-- COMPLETED: All migrations ready, foreign keys validated -->
+```
+
+#### Lead Coordination Metadata:
+```markdown
+- [ ] 4.1 Integration testing <!-- Agent: testing-specialist -->
+<!-- COORDINATION: Waiting for tasks 4.2 and 4.3 completion -->
+<!-- NEXT: Will notify agent when dependencies are ready -->
+```
+
+#### Metadata Guidelines:
+- **Clarity**: Make all metadata human-readable and clear
+- **Consistency**: Use standardized keywords (STATUS, INSTRUCTION, COMPLETED, etc.)
+- **Non-breaking**: Ensure metadata doesn't interfere with existing markdown parsers
+- **Searchable**: Use consistent formatting for easy searching and filtering
+
+### Enhanced Task List Examples
+
+#### Example 1: E-commerce Checkout System
+```markdown
+## Tasks
+
+- [x] 1.0 Build user authentication system
+  - [x] 1.1 Create login form component <!-- Agent: frontend-specialist -->
+  <!-- COMPLETED: Responsive design, form validation included -->
+  - [x] 1.2 Implement JWT authentication API <!-- Agent: backend-developer -->
+  <!-- COMPLETED: JWT tokens, refresh logic, rate limiting -->
+  - [x] 1.3 Add user session management <!-- Agent: backend-developer -->
+  <!-- COMPLETED: Redis session store, automatic cleanup -->
+  - [x] 1.4 Write authentication tests <!-- Agent: testing-specialist -->
+  <!-- COMPLETED: Unit tests (98% coverage), integration tests -->
+
+- [ ] 2.0 Develop payment processing system
+  - [ ] 2.1 Design payment UI components <!-- Agent: frontend-specialist -->
+  <!-- STATUS: In Progress - wireframes done, coding started -->
+  <!-- INSTRUCTION: Support credit cards and PayPal, mobile-first design -->
+  
+  - [ ] 2.2 Create payment API endpoints <!-- Agent: backend-developer -->
+  <!-- STATUS: Pending - waiting for 2.1 design specs -->
+  <!-- DEPENDS: Task 2.1 for UI requirements -->
+  
+  - [ ] 2.3 Integrate Stripe payment gateway <!-- Agent: backend-developer -->
+  <!-- STATUS: Ready to start -->
+  <!-- INSTRUCTION: Implement webhooks, handle async payment confirmations -->
+  
+  - [ ] 2.4 Add payment validation and error handling <!-- Agent: backend-developer -->
+  <!-- STATUS: Waiting -->
+  <!-- DEPENDS: Tasks 2.2 and 2.3 -->
+  
+  - [ ] 2.5 Write payment system tests <!-- Agent: testing-specialist -->
+  <!-- STATUS: Test cases prepared, waiting for implementation -->
+  <!-- INSTRUCTION: Include mock payment scenarios, error cases -->
+
+- [ ] 3.0 Implement order management
+  <!-- COORDINATION: Will start after 2.0 completion -->
+```
+
+#### Example 2: Real-time Progress Tracking
+```markdown
+<!-- LEAD STATUS UPDATE (3:30 PM) -->
+<!-- Current Focus: Parent Task 2.0 - Payment Processing -->
+<!-- Active Agents: frontend-specialist (2.1), backend-developer (2.3) -->
+<!-- Blocked: 2.2 waiting for 2.1, 2.4 waiting for 2.2+2.3 -->
+<!-- Next Actions: Check frontend progress, start 2.2 when ready -->
+
+## Tasks
+
+- [ ] 2.0 Develop payment processing system
+  - [ ] 2.1 Design payment UI components <!-- Agent: frontend-specialist -->
+  <!-- STATUS: 75% complete - final mobile styling in progress -->
+  <!-- ESTIMATED COMPLETION: 4:00 PM today -->
+  
+  - [ ] 2.2 Create payment API endpoints <!-- Agent: backend-developer -->
+  <!-- STATUS: Ready to start once 2.1 provides specs -->
+  <!-- COORDINATION: Will assign to backend-developer at 4:00 PM -->
+  
+  - [ ] 2.3 Integrate Stripe payment gateway <!-- Agent: backend-developer -->
+  <!-- STATUS: In Progress - API integration 60% complete -->
+  <!-- NEXT: Webhook implementation this evening -->
+```
+
+#### Example 3: Cross-Agent Dependencies
+```markdown
+- [ ] 3.0 Build real-time notification system
+  - [ ] 3.1 Design notification UI components <!-- Agent: frontend-specialist -->
+  <!-- STATUS: Completed - components ready for integration -->
+  
+  - [ ] 3.2 Implement WebSocket server <!-- Agent: backend-developer -->
+  <!-- STATUS: In Progress - server setup done, need client protocol -->
+  <!-- COORDINATION: Working with frontend-specialist on message format -->
+  
+  - [ ] 3.3 Create notification API <!-- Agent: backend-developer -->
+  <!-- STATUS: Waiting - will start after 3.2 WebSocket completion -->
+  
+  - [ ] 3.4 Integrate frontend notifications <!-- Agent: frontend-specialist -->
+  <!-- STATUS: Ready to start once 3.2 provides WebSocket protocol -->
+  <!-- DEPENDS: Task 3.2 for connection protocol -->
+  
+  - [ ] 3.5 Test notification delivery <!-- Agent: testing-specialist -->
+  <!-- STATUS: Test scenarios prepared -->
+  <!-- DEPENDS: Tasks 3.2, 3.3, 3.4 for complete system -->
+```
+
+### Compatibility with Existing Markdown Task Lists
+
+**Critical Requirement**: Enhanced task lists must remain fully compatible with existing `process-task-list` workflows:
+
+#### Compatibility Principles:
+- **Standard markdown preserved**: Core task list structure remains unchanged
+- **HTML comments only**: All enhancements use HTML comments that don't affect rendering
+- **Optional metadata**: Enhanced features are additive, not required for basic functionality
+- **Tool compatibility**: Works with existing markdown parsers, editors, and viewers
+
+#### Backward Compatibility:
+```markdown
+<!-- This works with both team-process-tasks AND process-task-list -->
+- [ ] 1.0 Build authentication system
+  - [ ] 1.1 Create login form
+  - [ ] 1.2 Implement authentication API
+  - [ ] 1.3 Write unit tests
+
+<!-- Enhanced version - additional metadata ignored by process-task-list -->
+- [ ] 1.0 Build authentication system
+  - [ ] 1.1 Create login form <!-- Agent: frontend-specialist -->
+  - [ ] 1.2 Implement authentication API <!-- Agent: backend-developer -->
+  - [ ] 1.3 Write unit tests <!-- Agent: testing-specialist -->
+```
+
+#### Migration Path:
+1. **Existing task lists work unchanged**: No modifications required for current workflows
+2. **Gradual enhancement**: Add agent assignments only when using team coordination
+3. **Fallback behavior**: If team coordination isn't used, functions like normal process-task-list
+4. **No breaking changes**: Enhanced metadata never interferes with standard markdown parsing
+
+#### Compatibility Rules:
+- **Never modify standard syntax**: Keep `- [ ]` and `- [x]` format unchanged
+- **HTML comments only**: All enhancements must use `<!-- -->` comment format
+- **Preserve indentation**: Maintain existing indentation and nesting structure
+- **Optional features**: All team features work as optional enhancements to base functionality
+
+#### Testing Compatibility:
+- **Standard parsers**: Task lists render correctly in GitHub, GitLab, and other markdown viewers
+- **Existing tools**: Work with current task list management tools and scripts
+- **Single-agent mode**: Function perfectly when used without team coordination
+- **Incremental adoption**: Teams can gradually adopt enhanced features without disrupting workflows
+
+### Guidelines for Task List Updates with Agent Progress
+
+Establish clear protocols for maintaining task list updates as agents work:
+
+#### Update Responsibilities:
+
+**Lead Coordinator (You)**:
+- Add initial agent assignments when delegating tasks
+- Provide coordination status and timeline updates
+- Document dependency information and blockers
+- Update overall project status and next actions
+
+**Individual Agents**:
+- Mark sub-tasks complete (`[ ]` → `[x]`) when finished
+- Add completion notes with key accomplishments
+- Report status updates for long-running tasks
+- Communicate blockers or escalation needs
+
+#### Update Timing:
+- **Immediate**: Mark task completion as soon as work is done
+- **Regular intervals**: Status updates every 2-3 hours for active tasks
+- **Milestone points**: Updates when reaching significant progress markers
+- **Before blockers**: Immediate updates when encountering issues
+
+#### Update Format Standards:
+
+**Task Completion Updates**:
+```markdown
+- [x] 2.1 Create user dashboard <!-- Agent: frontend-specialist -->
+<!-- COMPLETED: Responsive design implemented, includes dark mode toggle -->
+<!-- FILES: src/components/Dashboard.tsx, src/styles/dashboard.css -->
+```
+
+**Progress Status Updates**:
+```markdown
+- [ ] 2.2 Implement search functionality <!-- Agent: backend-developer -->
+<!-- STATUS: 60% complete - basic search done, working on filters -->
+<!-- ESTIMATED COMPLETION: Tomorrow 2PM -->
+```
+
+**Blocker Reports**:
+```markdown
+- [ ] 2.3 Add payment integration <!-- Agent: backend-developer -->
+<!-- BLOCKED: Need Stripe API credentials from project admin -->
+<!-- ESCALATION: Waiting for admin response, alternative: use test keys -->
+```
+
+**Lead Coordination Updates**:
+```markdown
+<!-- COORDINATION UPDATE (4:15 PM) -->
+<!-- Parent Task 2.0 Status: 3 of 5 sub-tasks completed -->
+<!-- Active: frontend-specialist (2.4), backend-developer (2.5) -->
+<!-- Next: Begin task 3.0 when 2.4 and 2.5 complete (estimated 6PM) -->
+```
+
+#### Quality Guidelines:
+- **Be specific**: Include concrete details about what was accomplished
+- **Reference files**: List key files created or modified
+- **Estimate timing**: Provide realistic completion estimates for in-progress work
+- **Clear blockers**: Explicitly state what is preventing progress
+- **Actionable updates**: Include information that helps coordination decisions
+
+#### Maintenance Protocol:
+1. **Clean old status**: Remove outdated progress comments when tasks complete
+2. **Preserve completion**: Keep final completion notes for project history
+3. **Update dependencies**: Modify dependent task status when blockers resolve
+4. **Consolidate updates**: Merge multiple small updates into comprehensive status comments
