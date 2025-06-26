@@ -76,6 +76,9 @@ allowed_tools: [Read, Edit, Write, Bash, WebSearch, WebFetch]
 ```
 
 ## Connection Patterns
+
+Connections are represented as a directed acyclic graph. There must be no circular dependencies between agents. Start from the lead developer as a root node and then work down from there.
+
 ```yaml
 # Hub-and-spoke (default for 4+ agents)
 coordinator:
