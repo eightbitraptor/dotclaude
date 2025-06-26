@@ -657,3 +657,324 @@ Establish clear protocols for maintaining task list updates as agents work:
 2. **Preserve completion**: Keep final completion notes for project history
 3. **Update dependencies**: Modify dependent task status when blockers resolve
 4. **Consolidate updates**: Merge multiple small updates into comprehensive status comments
+
+## Integration with Existing Quality Controls
+
+### Team Completion Protocol
+
+Adapt the existing `process-task-list` completion protocol for team coordination while maintaining the same quality standards:
+
+#### Modified Completion Sequence:
+**When ALL sub-tasks of a parent task are marked `[x]` by agents:**
+
+1. **Lead Review Phase**:
+   - **Integration check**: Verify all agent contributions work together properly
+   - **Quality review**: Ensure all sub-task outputs meet project standards
+   - **Conflict resolution**: Address any overlapping or conflicting changes
+   - **Dependency validation**: Confirm all task dependencies are satisfied
+
+2. **Testing Phase** (Lead Coordinator Only):
+   - **Run full test suite**: Execute `pytest`, `npm test`, `bin/rails test`, etc.
+   - **Integration testing**: Test how all agent contributions work together
+   - **Quality assurance**: Verify the complete parent task functionality
+   - **Performance check**: Ensure no performance regressions from parallel work
+
+3. **Staging Phase** (Lead Coordinator Only):
+   - **Stage changes**: Run `git add .` to stage all agent contributions
+   - **Clean up**: Remove any temporary files and temporary code from agent work
+   - **Final review**: Last check before commit
+
+4. **Commit Phase** (Lead Coordinator Only):
+   - **Commit all changes**: Create single commit for the entire parent task
+   - **Conventional format**: Use proper commit message format with team context
+   - **Complete documentation**: Reference all contributing agents and key changes
+
+#### Critical Rules:
+- **Lead exclusive**: Only the lead coordinator ever runs tests, stages, or commits
+- **No individual commits**: Agents never commit their individual sub-task work
+- **Complete integration**: All sub-task work is integrated before any commits
+- **Same standards**: Maintain identical quality standards as single-agent workflow
+
+### Git Operations Exclusivity
+
+**Absolute Rule**: Only the lead coordinator performs git operations - agents never interact with git directly:
+
+#### Lead Coordinator Git Responsibilities:
+- **All git commands**: `git add`, `git commit`, `git status`, `git diff`, etc.
+- **Repository management**: Staging, committing, branching, merging
+- **Change coordination**: Integrating all agent contributions before commits
+- **Version control**: Maintaining clean, coherent commit history
+
+#### Agent Git Restrictions:
+- **No git commands**: Agents must never run any git operations
+- **No direct commits**: Agents never stage or commit their own work
+- **No repository interaction**: Agents work on files but don't manage versions
+- **File-level only**: Agents create/modify files but leave git management to lead
+
+#### Enforcement Mechanisms:
+```markdown
+<!-- CRITICAL INSTRUCTION FOR ALL AGENTS -->
+<!-- NEVER run git commands - all git operations are handled by lead coordinator -->
+<!-- Your role: Complete assigned sub-tasks and mark them [x] in task list -->
+<!-- Lead's role: Review, test, integrate, and commit all agent work -->
+```
+
+#### Workflow Separation:
+**Agent Workflow**:
+1. Receive sub-task assignment from lead
+2. Complete the assigned work (create/modify files)
+3. Mark sub-task as `[x]` with completion notes
+4. **STOP** - no git operations
+
+**Lead Workflow**:
+1. Monitor agent progress and completion
+2. Review and integrate all agent contributions
+3. Run tests and quality checks
+4. Stage and commit all changes as single unit
+
+#### Benefits of Git Exclusivity:
+- **Clean history**: Single coherent commits rather than fragmented agent commits
+- **Quality control**: All code reviewed and tested before committing
+- **Conflict prevention**: No merge conflicts from simultaneous agent commits
+- **Responsibility clarity**: Clear accountability for repository state
+
+### Testing Coordination Protocol
+
+**Testing Philosophy**: Comprehensive testing only after complete integration of all agent work:
+
+#### Testing Sequence:
+1. **Agent completion verification**: Confirm all sub-tasks marked `[x]` by agents
+2. **Integration assembly**: Gather all agent contributions into coherent whole
+3. **Comprehensive testing**: Run full test suite on integrated work
+4. **Quality validation**: Verify team output meets all standards
+
+#### Lead Testing Responsibilities:
+- **Execute all tests**: Run `pytest`, `npm test`, `bin/rails test`, or project-specific commands
+- **Integration testing**: Test how agent contributions work together
+- **Cross-component validation**: Verify frontend-backend integration, API compatibility, etc.
+- **Performance testing**: Ensure parallel development hasn't introduced performance issues
+- **Quality assurance**: Check code standards, documentation, and best practices
+
+#### Testing Scope:
+**Unit Tests**: Verify individual components created by agents work correctly
+**Integration Tests**: Ensure agent contributions integrate properly
+**System Tests**: Validate complete functionality across all agent work
+**Regression Tests**: Confirm no existing functionality was broken
+**Performance Tests**: Check that parallel development maintained performance standards
+
+#### Testing Protocol:
+```markdown
+<!-- TESTING PHASE - Lead Coordinator Only -->
+1. Verify all sub-tasks completed: ✓ All agents marked their work [x]
+2. Integration check: ✓ All agent files work together
+3. Run test suite: npm test (or appropriate command)
+4. Review test results: All tests must pass before commit
+5. Quality validation: Code review of integrated work
+6. Performance check: No regressions introduced
+```
+
+#### Test Failure Handling:
+**If tests fail after agent integration:**
+1. **Identify root cause**: Determine which agent's work caused the failure
+2. **Targeted debugging**: Work with specific agent to resolve issues
+3. **Re-integration**: Incorporate fixes and re-test
+4. **No partial commits**: Never commit until ALL tests pass
+5. **Documentation**: Record any integration challenges for future reference
+
+#### Testing Documentation:
+- **Test coverage**: Verify adequate test coverage across all agent contributions
+- **Test results**: Document test outcomes and any issues resolved
+- **Integration notes**: Record how different agent work pieces fit together
+- **Quality metrics**: Track code quality, test coverage, and performance metrics
+
+### Conventional Commit Format for Team Context
+
+Enhance the standard conventional commit format to include team collaboration context:
+
+#### Team Commit Message Structure:
+```
+<type>: <description>
+
+<body>
+- <agent contribution 1>
+- <agent contribution 2>
+- <agent contribution 3>
+
+Team: <list of contributing agents>
+Related to <task reference>
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+```
+
+#### Commit Message Examples:
+
+**Feature Development**:
+```bash
+git commit -m "feat: implement user authentication system" \
+  -m "- Create responsive login form with validation (frontend-specialist)" \
+  -m "- Implement JWT authentication API with rate limiting (backend-developer)" \
+  -m "- Add Redis session management with automatic cleanup (backend-developer)" \
+  -m "- Write comprehensive test suite with 98% coverage (testing-specialist)" \
+  -m "" \
+  -m "Team: frontend-specialist, backend-developer, testing-specialist" \
+  -m "Related to T1.0 in authentication PRD" \
+  -m "" \
+  -m "🤖 Generated with [Claude Code](https://claude.ai/code)" \
+  -m "" \
+  -m "Co-Authored-By: Claude <noreply@anthropic.com>"
+```
+
+**Bug Fix**:
+```bash
+git commit -m "fix: resolve payment processing timeout issues" \
+  -m "- Fix API timeout handling in payment endpoints (backend-developer)" \
+  -m "- Update frontend error handling for failed payments (frontend-specialist)" \
+  -m "- Add timeout scenario tests (testing-specialist)" \
+  -m "" \
+  -m "Team: backend-developer, frontend-specialist, testing-specialist" \
+  -m "Related to T2.3 in payment system PRD" \
+  -m "" \
+  -m "🤖 Generated with [Claude Code](https://claude.ai/code)" \
+  -m "" \
+  -m "Co-Authored-By: Claude <noreply@anthropic.com>"
+```
+
+**Refactoring**:
+```bash
+git commit -m "refactor: optimize database query performance" \
+  -m "- Implement query optimization and indexing (backend-developer)" \
+  -m "- Update API response caching strategy (backend-developer)" \
+  -m "- Add performance monitoring and alerts (devops-engineer)" \
+  -m "- Create performance regression tests (testing-specialist)" \
+  -m "" \
+  -m "Team: backend-developer, devops-engineer, testing-specialist" \
+  -m "Related to T3.2 in performance optimization PRD" \
+  -m "" \
+  -m "🤖 Generated with [Claude Code](https://claude.ai/code)" \
+  -m "" \
+  -m "Co-Authored-By: Claude <noreply@anthropic.com>"
+```
+
+#### Commit Guidelines:
+- **Attribution clarity**: Clearly identify which agent contributed what
+- **Team visibility**: List all contributing agents for proper credit
+- **Task reference**: Link commits back to specific parent tasks
+- **Descriptive details**: Include meaningful descriptions of each agent's contribution
+- **Consistent format**: Follow conventional commit standards while adding team context
+
+### Examples of Successful Team Task Completion Workflows
+
+#### Example 1: Complete User Authentication Workflow
+
+**Initial State**:
+```markdown
+- [ ] 1.0 Build user authentication system
+  - [ ] 1.1 Create login form component
+  - [ ] 1.2 Implement JWT authentication API
+  - [ ] 1.3 Add user session management
+  - [ ] 1.4 Write authentication tests
+```
+
+**Step 1: Lead Analysis and Agent Activation**
+```markdown
+<!-- LEAD COORDINATION: Starting Parent Task 1.0 -->
+<!-- Agents Activated: frontend-specialist, backend-developer, testing-specialist -->
+<!-- Assignment Strategy: UI → frontend, API → backend, tests → testing -->
+```
+
+**Step 2: Agent Assignment and Delegation**
+```markdown
+- [ ] 1.0 Build user authentication system
+  - [ ] 1.1 Create login form component <!-- Agent: frontend-specialist -->
+  <!-- INSTRUCTION: Responsive design, form validation, mobile-first -->
+  - [ ] 1.2 Implement JWT authentication API <!-- Agent: backend-developer -->
+  <!-- INSTRUCTION: Include refresh tokens, rate limiting, proper security -->
+  - [ ] 1.3 Add user session management <!-- Agent: backend-developer -->
+  <!-- DEPENDS: Task 1.2 for JWT implementation -->
+  - [ ] 1.4 Write authentication tests <!-- Agent: testing-specialist -->
+  <!-- DEPENDS: Tasks 1.1, 1.2, 1.3 for complete system testing -->
+```
+
+**Step 3: Parallel Execution with Progress Updates**
+```markdown
+- [ ] 1.0 Build user authentication system
+  - [x] 1.1 Create login form component <!-- Agent: frontend-specialist -->
+  <!-- COMPLETED: Responsive form with validation, includes forgot password link -->
+  <!-- FILES: src/components/LoginForm.tsx, src/styles/auth.css -->
+  
+  - [ ] 1.2 Implement JWT authentication API <!-- Agent: backend-developer -->
+  <!-- STATUS: 80% complete - JWT working, adding rate limiting -->
+  <!-- ESTIMATED COMPLETION: 2 hours -->
+  
+  - [ ] 1.3 Add user session management <!-- Agent: backend-developer -->
+  <!-- STATUS: Ready to start once 1.2 completes -->
+  
+  - [ ] 1.4 Write authentication tests <!-- Agent: testing-specialist -->
+  <!-- STATUS: Test scenarios prepared, waiting for API completion -->
+```
+
+**Step 4: Final Completion and Integration**
+```markdown
+- [ ] 1.0 Build user authentication system
+  - [x] 1.1 Create login form component <!-- Agent: frontend-specialist -->
+  <!-- COMPLETED: Responsive form with validation, includes forgot password link -->
+  
+  - [x] 1.2 Implement JWT authentication API <!-- Agent: backend-developer -->
+  <!-- COMPLETED: JWT auth with refresh tokens, rate limiting, security headers -->
+  
+  - [x] 1.3 Add user session management <!-- Agent: backend-developer -->
+  <!-- COMPLETED: Redis session store, automatic cleanup, session validation -->
+  
+  - [x] 1.4 Write authentication tests <!-- Agent: testing-specialist -->
+  <!-- COMPLETED: Unit tests (98% coverage), integration tests, security tests -->
+```
+
+**Step 5: Lead Integration and Testing**
+```markdown
+<!-- LEAD INTEGRATION PHASE -->
+<!-- All sub-tasks completed ✓ -->
+<!-- Integration check: Frontend form → Backend API → Session management ✓ -->
+<!-- Running test suite: npm test -->
+<!-- Test results: All 47 tests passing ✓ -->
+<!-- Quality check: Code review completed ✓ -->
+<!-- Ready for commit -->
+```
+
+**Step 6: Final Commit**
+```bash
+git add .
+git commit -m "feat: implement user authentication system" \
+  -m "- Create responsive login form with validation (frontend-specialist)" \
+  -m "- Implement JWT authentication API with rate limiting (backend-developer)" \
+  -m "- Add Redis session management with automatic cleanup (backend-developer)" \
+  -m "- Write comprehensive test suite with 98% coverage (testing-specialist)" \
+  -m "" \
+  -m "Team: frontend-specialist, backend-developer, testing-specialist" \
+  -m "Related to T1.0 in authentication PRD" \
+  -m "" \
+  -m "🤖 Generated with [Claude Code](https://claude.ai/code)" \
+  -m "" \
+  -m "Co-Authored-By: Claude <noreply@anthropic.com>"
+```
+
+**Step 7: Task Completion**
+```markdown
+- [x] 1.0 Build user authentication system ✓ COMPLETED
+  - [x] 1.1 Create login form component
+  - [x] 1.2 Implement JWT authentication API  
+  - [x] 1.3 Add user session management
+  - [x] 1.4 Write authentication tests
+
+<!-- LEAD STATUS: Parent Task 1.0 completed and committed -->
+<!-- Next: Moving to Parent Task 2.0 -->
+```
+
+#### Key Success Factors:
+- **Clear delegation**: Each agent knew exactly what to do
+- **Dependency management**: Tasks with dependencies waited appropriately
+- **Progress visibility**: All team members could see status updates
+- **Quality integration**: Lead thoroughly tested before committing
+- **Single commit**: All agent work committed as coherent unit
+- **Proper attribution**: All agents credited for their contributions
