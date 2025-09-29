@@ -1,8 +1,24 @@
 {
-  "autoUpdaterStatus": "enabled",
-  "hasCompletedOnboarding": true,
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "apiKeyHelper": "/opt/dev/bin/devx llm-gateway print-token --key",
   "env": {
     "ANTHROPIC_BASE_URL": "https://proxy.shopify.ai/vendors/anthropic-claude-code"
   },
-  "apiKeyHelper": "/opt/dev/bin/dev llm-gateway print-token --key"
+  "model": "sonnet[1m]",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/mattvh/.claude/hooks/post-edit-cleanup.sh {{.ToolUse.Parameters.file_path}}"
+          }
+        ]
+      }
+    ]
+  },
+  "feedbackSurveyState": {
+    "lastShownTime": 1754060849034
+  }
 }
