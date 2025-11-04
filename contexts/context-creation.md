@@ -173,11 +173,139 @@ server {
 - Input validation: Invalid emails return False
 ```
 
+## Interactive Context Gathering
+
+### When to Use AskUserQuestion vs Text Prompts
+
+**Use AskUserQuestion Tool When:**
+- Gathering initial context parameters (storage, scope, depth)
+- Offering concrete choices between approaches
+- Collecting multiple non-exclusive preferences (multiSelect)
+- Presenting domain-specific options with clear implications
+- Maximum 4 questions can be asked simultaneously
+
+**Text Prompts Only When:**
+- Gathering free-form information that can't be categorized
+- Complex requirements that need detailed explanation
+- Follow-up clarification after AskUserQuestion responses
+
+### Best Practices for Question Formatting
+
+**Question Structure:**
+- **Question text**: Clear, specific, ends with "?"
+- **Header**: Ultra-concise label (≤12 chars)
+- **Options**: 2-4 concrete choices
+- **Descriptions**: Explain implications and trade-offs
+
+**Dynamic Question Generation:**
+1. Analyze the topic domain first
+2. Identify 2-4 most critical decision points
+3. Create options that meaningfully affect output
+4. Use multiSelect for combinable choices
+5. Avoid overlapping with standard questions
+
+### Example Interactive Flow
+
+```javascript
+// Phase 1: Standard Questions (Always Asked)
+{
+  questions: [
+    {
+      question: "Where should this be stored?",
+      header: "Storage",
+      multiSelect: false,
+      options: [
+        { label: "Global", description: "~/.claude/contexts/ - all projects" },
+        { label: "Local", description: "./contexts/ - current project only" }
+      ]
+    }
+  ]
+}
+
+// Phase 2: Dynamic Questions (Topic-Specific)
+// For a Kubernetes topic:
+{
+  questions: [
+    {
+      question: "Which Kubernetes workload types to cover?",
+      header: "K8s Types",
+      multiSelect: true,
+      options: [
+        { label: "Deployments", description: "Stateless applications, rolling updates" },
+        { label: "StatefulSets", description: "Stateful applications, ordered deployment" },
+        { label: "DaemonSets", description: "Node-level services, monitoring agents" },
+        { label: "Jobs/CronJobs", description: "Batch processing, scheduled tasks" }
+      ]
+    }
+  ]
+}
+
+// For a Security/Authentication topic:
+{
+  questions: [
+    {
+      question: "Which authentication methods should be covered?",
+      header: "Auth Methods",
+      multiSelect: true,
+      options: [
+        { label: "JWT", description: "JSON Web Tokens, stateless auth" },
+        { label: "OAuth 2.0", description: "Third-party authorization, social logins" },
+        { label: "SAML", description: "Enterprise SSO, XML-based federation" },
+        { label: "API Keys", description: "Service-to-service authentication" }
+      ]
+    }
+  ]
+}
+
+// For a CI/CD Pipeline topic:
+{
+  questions: [
+    {
+      question: "Which CI/CD platform is the focus?",
+      header: "CI/CD Tool",
+      multiSelect: false,
+      options: [
+        { label: "GitHub Actions", description: "GitHub's native CI/CD, YAML workflows" },
+        { label: "GitLab CI", description: "GitLab's integrated CI/CD, .gitlab-ci.yml" },
+        { label: "Jenkins", description: "Self-hosted, Jenkinsfile pipelines" },
+        { label: "CircleCI", description: "Cloud-based CI/CD, config.yml" }
+      ]
+    }
+  ]
+}
+```
+
+### Domain-Specific Question Patterns
+
+**Infrastructure/DevOps Topics:**
+- Deployment targets (local, cloud, hybrid)
+- Scale considerations (single server vs distributed)
+- Automation tools (Terraform, Ansible, Pulumi)
+- Monitoring focus (metrics, logs, traces)
+
+**Programming Language Topics:**
+- Version compatibility requirements
+- Framework/library ecosystem coverage
+- Package management approach
+- Testing framework preferences
+
+**Database Topics:**
+- Data model focus (relational, document, graph)
+- Scale requirements (single node vs cluster)
+- Feature priorities (performance, consistency, availability)
+- Access patterns (OLTP, OLAP, hybrid)
+
+**API/Service Topics:**
+- Protocol choice (REST, GraphQL, gRPC)
+- Authentication mechanisms
+- Rate limiting strategies
+- Documentation standards
+
 ## Creation Process
 
 ### 1. Identify Official Sources
 - Find primary documentation site
-- Locate official API references  
+- Locate official API references
 - Check for RFCs or specifications
 - Verify source authority and currency
 
