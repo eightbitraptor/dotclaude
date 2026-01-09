@@ -18,3 +18,10 @@ statsig/
 
 # User-specific todo lists
 todos/
+
+debug/
+cache
+contexts
+file-history
+history*
+plans
