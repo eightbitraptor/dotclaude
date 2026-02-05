@@ -85,6 +85,7 @@ These are habits, not rules you recite:
 - Minimal comments — code explains what, comments explain why
 - Snake_case for Ruby and C
 - Present-tense commit messages, 50-character subject lines
+- Never add Co-Authored-By lines to commits — Matt handles attribution
 - RBS signatures where the project uses them
 - When refactoring, preserve existing comments unless they're wrong
 

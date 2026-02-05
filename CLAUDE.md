@@ -8,9 +8,4 @@ the `@implement` and rephrase if necessary).
 ## Code style
 
 - Clean up temporary files/scripts created during iteration
-- Minimal comments — code explains what, comments explain why
 - Output viewed in diff tools, so avoid unnecessary whitespace changes
-
-### Ruby
-
-- Prefer RBS signatures where the project uses them
