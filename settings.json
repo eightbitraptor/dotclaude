@@ -25,7 +25,8 @@
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true,
     "explanatory-output-style@claude-plugins-official": true,
-    "clangd-lsp@claude-plugins-official": true
+    "clangd-lsp@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true
   },
   "outputStyle": "Systems Engineering",
   "alwaysThinkingEnabled": true,
