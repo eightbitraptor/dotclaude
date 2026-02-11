@@ -2,7 +2,8 @@
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "apiKeyHelper": "/opt/dev/bin/user/devx llm-gateway print-token --key",
   "env": {
-    "ANTHROPIC_BASE_URL": "https://proxy.shopify.ai/vendors/anthropic-claude-code"
+    "ANTHROPIC_BASE_URL": "https://proxy.shopify.ai/vendors/anthropic-claude-code",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   },
   "model": "opus",
   "hooks": {
@@ -20,7 +21,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "input=$(cat); cwd=$(echo \"$input\" | jq -r '.workspace.current_dir'); short_cwd=\"${cwd/#$HOME/~}\"; branch=$(git -C \"$cwd\" branch --show-current 2>/dev/null || git -C \"$cwd\" rev-parse --short HEAD 2>/dev/null); dirty=\"\"; if [ -n \"$branch\" ]; then git -C \"$cwd\" diff --quiet 2>/dev/null && git -C \"$cwd\" diff --cached --quiet 2>/dev/null || dirty=\"*\"; git_info=\"$(printf '\\033[90m')${branch}${dirty}$(printf '\\033[0m') \"; fi; printf \"$(printf '\\033[34m')%s$(printf '\\033[0m') %s$(printf '\\033[35m')❯$(printf '\\033[0m')\" \"$short_cwd\" \"$git_info\""
+    "command": "/Users/mattvh/.claude/hooks/statusline.sh"
   },
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true,
